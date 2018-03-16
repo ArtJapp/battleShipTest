@@ -13,6 +13,11 @@ def hello_world():
     return render_template("index.html")
 
 
+@socketio.on('connect')
+def connected_init():
+    emit('connected', {'dorou': "sashka"})
+
+
 @socketio.on('create')
 def create_game(data):
     print(data['name'])
@@ -100,9 +105,9 @@ def player_fire(data):
         })
     except KeyError:
         emit('error', {
-            'message' : "kind of turururu"
+            'message': "kind of turururu"
         })
 
 
 if __name__ == '__main__':
-    socketio.run(app, port=5010)
+    socketio.run(app, host='192.168.1.29', port=5010)
