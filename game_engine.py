@@ -81,9 +81,10 @@ class Game:
                 return False
 
     def join_user2(self, player2):
-        if len(self.players) > 2:
+        if len(self.players) >= 2:
             return False
         self.players.append(Player(player2, 1))
+        return True
 
 
     def computer_initial(self):
@@ -122,7 +123,7 @@ class Game:
     def user_gamer(self, player):
         choosen_x = int(input("Выберите координату х"))-1
         choosen_y = int(input("Выберите координату y"))-1
-        
+
         if 0 <= choosen_y < FIELD_SIZE_Y and FIELD_SIZE_X > choosen_x >= 0:
             self.fire(choosen_x, choosen_y, 1)
 

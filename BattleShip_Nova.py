@@ -19,6 +19,7 @@ def start_game(data):
     game_id = len(ROOMS)
     ROOMS[game_id] = Game(game_id, data['name'])
     print("The game with id=", game_id, " has been created")
+    join_room(game_id)
     emit('created', {'game_id': game_id, 'user_id': 0})
     
 
@@ -30,6 +31,7 @@ def start_game(data):
         answer = game.join_user2(data['name'])
         if answer:
             print("Yes, gamer ", data['name'], " has joined")
+            join_room(game_id)
             emit('joined', {
                 'game_id': game.id,
                 'user': {
