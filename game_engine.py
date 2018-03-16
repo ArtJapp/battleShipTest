@@ -11,6 +11,7 @@ class Game:
         self.running = False
         self.finished = False
         self.createfield()
+        self.current_player = 0
         self.popadeniya1 = 0
         self.popadeniya2 = 0
         self.maxpoints = 0
@@ -86,9 +87,11 @@ class Game:
         self.players.append(Player(player2, 1))
         return True
 
-
-    def computer_initial(self):
-
+    def computer_initial(self, player=1):
+        if player == 0:
+            position = 1
+        else:
+            position = 3
         for i in range(1, MAX_LENGTH_SHIP+1):
             print(MAX_LENGTH_SHIP+2-i)
             for j in range(0,MAX_LENGTH_SHIP+1-i):
@@ -98,7 +101,7 @@ class Game:
                     #horyzontal
                     coord_x = random.randint(1, FIELD_SIZE_X-cur_size) - 1
                     coord_y = random.randint(1, FIELD_SIZE_Y) - 1
-                    while self.field[coord_x][coord_y][3] == '1':
+                    while self.field[coord_x][coord_y][position] == '1':
                         coord_x = random.randint(1, FIELD_SIZE_X - cur_size) - 1
                         coord_y = random.randint(1, FIELD_SIZE_Y) - 1
                     print("horyz: ", coord_x, coord_y)
@@ -106,7 +109,7 @@ class Game:
                 else:
                     coord_x = random.randint(1, FIELD_SIZE_X) - 1
                     coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
-                    while self.field[coord_x][coord_y][3] == '1':
+                    while self.field[coord_x][coord_y][position] == '1':
                         coord_x = random.randint(1, FIELD_SIZE_X) - 1
                         coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
                     print("vert: ", coord_x, coord_y)
@@ -124,26 +127,45 @@ class Game:
         choosen_x = int(input("Выберите координату х"))-1
         choosen_y = int(input("Выберите координату y"))-1
 
+        if player == 0:
+            position = 1
+        else:
+            position = 3
         if 0 <= choosen_y < FIELD_SIZE_Y and FIELD_SIZE_X > choosen_x >= 0:
-            self.fire(choosen_x, choosen_y, 1)
+            return self.fire(choosen_x, choosen_y, position)
 
     def checker(self):
         if self.maxpoints == self.popadeniya2 or self.maxpoints == self.popadeniya1:
             self.finished = True
 
+    def auto_ustanovka_testers(self):
+        self.computer_initial(0)
+        self.computer_initial(1)
+        self.printfield()
+
     def start_game(self):
-        print("The game ", self._id, " has been started with gamers: ", self.players)
+        print("The game ", self.id, " has been started with gamers: ", self.players)
         self.running = True
         pointer = 1
         while self.running and not self.finished:
             self.printfield()
-            if pointer == 1:
-                self.user_gamer()
-                pointer = 0
+            self.current_player = pointer
+            print("Current player is ", pointer)
+            if pointer == 0:
+                ans = self.user_gamer(0)
+                if ans:
+                    pointer = 0
+                else:
+                    pointer = 1
             else:
-                self.computer_gamer()
-                pointer = 1
+                ans = self.user_gamer(1)
+                if ans:
+                    pointer = 1
+                else:
+                    pointer = 0
         print("STOP GAME")
         print(self.popadeniya1)
         print(self.popadeniya2)
+        self.finished = True
+
 
