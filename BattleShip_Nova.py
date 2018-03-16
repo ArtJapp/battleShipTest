@@ -15,6 +15,7 @@ def hello_world():
 
 @socketio.on('connect')
 def connected_init():
+    print("somebody has connected")
     emit('connected', {'dorou': "sashka"})
 
 
@@ -68,6 +69,7 @@ def setting_ships_up(data):
     try:
         game = ROOMS[game_id]
         game.auto_ustanovka_testers()
+        print("auto ustanovka performed")
     except KeyError:
         print("No game with such id")
         emit('error', {

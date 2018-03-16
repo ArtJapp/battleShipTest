@@ -64,6 +64,10 @@
         console.log('Joining game with id ' + id_field.value)
         socket.emit('join', {name: "Not Pushok", game_id: id_field.value})
     }
+    function setitup() {
+        console.log("Auto-setting up")
+        //socket.emit()
+    }
     function hit(guessed) {
         if (player === 0 && guessed === 0)
         {
