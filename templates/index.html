@@ -13,15 +13,28 @@
       <button onclick="joinGame()">Join Game</button>
   </div>
   <div class="game">
-      <input type="text" value="Your hit" name="hit_field" class="hit_field" id="hit_field">
-      <label class="lab" for="hit_field">Enter your decision: </label>
-      <button onclick="hit()">FIRE!</button>
+      <label class="lab" >Enter your decision: </label><br>
+      <label class="lab">x: </label>
+      <input type="text" value="Your hit" name="hit_field" class="hit_field" id="hit_field_x">
+      <label class="lab">y: </label>
+      <input type="text" value="Your hit" name="hit_field" class="hit_field" id="hit_field_y">
+      <button onclick="hit(0)">FIRE!</button>
+  </div>
+  <p>As we are just testing this application, let you decide which your ship will be bitten</p>
+    <div class="game">
+      <label class="lab" >Enter enemy's decision: </label><br>
+      <label class="lab">x: </label>
+      <input type="text" value="His hit" name="hit_field" class="hit_field" id="his_field_x">
+      <label class="lab">y: </label>
+      <input type="text" value="His hit" name="hit_field" class="hit_field" id="his_field_y">
+      <button onclick="hit(1)">FIRE!</button>
   </div>
 
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     var socket = io.connect('http://' + document.domain + ':' + location.port);
     // verify our websocket connection is established
+    var player = (0);
     socket.on('connect', function() {
         console.log('Websocket connected!');
     });
@@ -35,6 +48,11 @@
     socket.on('forbidden', function (msg) {
        console.log(msg);
     });
+    socket.on('fired', function (msg) {
+        console.log(msg);
+
+    });
+
     // createGame onclick - emit a message on the 'create' channel to
     // create a new game with default parameters
     function createGame() {
@@ -46,9 +64,25 @@
         console.log('Joining game with id ' + id_field.value)
         socket.emit('join', {name: "Not Pushok", game_id: id_field.value})
     }
-    function hit() {
-        var decision = document.getElementById("hit_field")
-        console.log(decision)
+    function hit(guessed) {
+        if (player === 0 && guessed === 0)
+        {
+             var decision_x = document.getElementById("hit_field_x").value;
+             var decision_y = document.getElementById("hit_field_y").value;
+        } else {
+             var decision_x = document.getElementById("his_field_x").value;
+             var decision_y = document.getElementById("his_field_y").value;
+        }
+
+        console.log(player, decision_x, decision_y)
+        socket.emit('fire', {
+            game_id: 0,
+            user_id: player,
+            coord: {
+                x: decision_x,
+                y: decision_y
+            }
+        })
     }
   </script>
 </body>
