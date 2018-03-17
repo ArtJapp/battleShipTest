@@ -1,1 +1,1 @@
-web: geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 BattleShip_Nova:app
+web: gunicorn -k gevent -w 1 BattleShip_Nova:app
