@@ -1,1 +1,1 @@
-web: gunicorn —worker-class socketio.sgunicorn.GeventSocketIOWorker —log-file=- BattleShip_Nova:app
+web: gunicorn -k gevent -w 1 BattleShip_Nova:app
