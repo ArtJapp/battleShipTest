@@ -12,6 +12,7 @@
       <br>
       <button onclick="joinGame()">Join Game</button>
   </div>
+  <button onclick="sendbobs()">sending ships</button>
   <div class="game">
       <label class="lab" >Enter your decision: </label><br>
       <label class="lab">x: </label>
@@ -67,6 +68,13 @@
     function setitup() {
         console.log("Auto-setting up")
         //socket.emit()
+    }
+    function sendbobs() {
+        socket.emit('fire', {
+            game_id: 0,
+            user_id: 0,
+            ships: [{"size":3,"coordinates":[{"y":1,"x":1},{"y":2,"x":1},{"y":3,"x":1}]},{"size":4,"coordinates":[{"y":1,"x":3},{"y":1,"x":4},{"y":1,"x":5},{"y":1,"x":6}]},{"size":2,"coordinates":[{"y":5,"x":3},{"y":6,"x":3}]},{"size":3,"coordinates":[{"y":8,"x":5},{"y":8,"x":6},{"y":8,"x":7}]},{"size":1,"coordinates":[{"y":8,"x":3}]},{"size":1,"coordinates":[{"y":1,"x":9}]},{"size":2,"coordinates":[{"y":3,"x":5},{"y":3,"x":6}]},{"size":2,"coordinates":[{"y":7,"x":0},{"y":8,"x":0}]},{"size":1,"coordinates":[{"y":6,"x":9}]},{"size":1,"coordinates":[{"y":5,"x":6}]}]
+        })
     }
     function hit(guessed) {
         if (player === 0 && guessed === 0)
