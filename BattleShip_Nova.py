@@ -4,7 +4,7 @@ from game_engine import *
 from player import *
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins=["http://alexfilimon.ru"])
 
 ROOMS = {}
 
