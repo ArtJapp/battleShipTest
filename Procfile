@@ -1,1 +1,1 @@
-web: gunicorn --worker-class eventlet --log-level debug --bind 0.0.0.0:8080 app
+web: gunicorn --worker-class eventlet --log-level debug --bind 0.0.0.0:8080 BattleShip_Nova
