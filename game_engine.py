@@ -9,6 +9,8 @@ class Game:
         self.field = []
         self.players = [Player(player1, 0)]
         self.running = False
+        self.setted_1 = False
+        self.setted_2 = False
         self.finished = False
         self.createfield()
         self.current_player = 0
@@ -30,19 +32,12 @@ class Game:
         '''
         self.field = [[['0'] * 4 for j in range(FIELD_SIZE_Y)] for i in range(FIELD_SIZE_X)]
 
-    def ustanovka(self, coor_x, coor_y, length, vorh, player):
+    def ustanovka(self, coor_x, coor_y, player):
+        player += 1
         if player == 1:
-            for i in range(0, length):
-                if (vorh == 'h'):
-                    self.field[coor_y][coor_x + i][1] = '1'
-                else:
-                    self.field[coor_y + i][coor_x][1] = '1'
+            self.field[coor_y][coor_x][3] = '1'
         elif player == 2:
-            for i in range(0, length):
-                if (vorh == 'h'):
-                    self.field[coor_y][coor_x + i][3] = '1'
-                else:
-                    self.field[coor_y + i][coor_x][3] = '1'
+            self.field[coor_y][coor_x][1] = '1'
 
     def user_rasstanovka(self):
         for i in range(1, MAX_LENGTH_SHIP+1):
@@ -62,11 +57,13 @@ class Game:
     def fire(self, coor_x, coor_y, player):
         print("Player ", player, " hits in cell (", coor_x+1, ", ", coor_y+1, ")", end="   ")
         if player == 1:
+            # todo: player == 0 then hit player #1 field
             #проверка кораблей второго игрока
             self.field[coor_y][coor_x][0] = '1'
             if self.field[coor_y][coor_x][3] == '1':
                 self.popadeniya1 += 1
                 print("HIT")
+                self.checker()
                 return True
             else:
                 print("MISS")
@@ -105,7 +102,7 @@ class Game:
                         coord_x = random.randint(1, FIELD_SIZE_X - cur_size) - 1
                         coord_y = random.randint(1, FIELD_SIZE_Y) - 1
                     print("horyz: ", coord_x, coord_y)
-                    self.ustanovka(coord_x, coord_y, cur_size, 'h', 2)
+                    self.ustanovka(coord_x, coord_y, cur_size, 'h', position+1)
                 else:
                     coord_x = random.randint(1, FIELD_SIZE_X) - 1
                     coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
@@ -113,7 +110,7 @@ class Game:
                         coord_x = random.randint(1, FIELD_SIZE_X) - 1
                         coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
                     print("vert: ", coord_x, coord_y)
-                    self.ustanovka(coord_x, coord_y, cur_size, 'v', 2)
+                    self.ustanovka(coord_x, coord_y, cur_size, 'v', position+1)
 
     def computer_gamer(self):
         choosen_x = random.randint(1, FIELD_SIZE_X) - 1
