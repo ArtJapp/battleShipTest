@@ -2,7 +2,7 @@ from settings import *
 import random
 from player import *
 
-
+#todo check function that checks the end of game
 class Game:
     def __init__(self, game_id, player1):
         self.id = game_id

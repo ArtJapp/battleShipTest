@@ -148,5 +148,12 @@ def player_fire(data):
         })
 
 
+@socketio.on("disconnest")
+def disconnected(data):
+    game_id = data['game_id']
+    print("Disconnected id=", game_id)
+    leave_room(game_id)
+
+
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5010)
