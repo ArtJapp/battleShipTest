@@ -121,22 +121,30 @@ def player_fire(data):
         else:
             next_player_id = enemy_id
         game.printfield()
-        if game.finished:
-            print("the game is finished, winner is ", game.winner)
-            emit("game-finished", {
+        if game.error:
+            print("Game ", game_id, "error")
+            emit('error', {
+                "message": "Ya tebe seychas poclickayu!!!"
+            })
+            game.error = False
+        else:
+            if game.finished:
+                print("the game is finished, winner is ", game.winner)
+                emit("game-finished", {
+                    'game_id': game_id,
+                    'winner_id': game.winner
+                }, room=game_id)
+            emit("fired", {
                 'game_id': game_id,
-                'winner_id': game.winner
+                'enemy_id': enemy_id,
+                'next_player_id': next_player_id,
+                'is_ship': answer,
+                'coord': {
+                    'x': coord_x,
+                    'y': coord_y
+                }
             }, room=game_id)
-        emit("fired", {
-            'game_id': game_id,
-            'enemy_id': enemy_id,
-            'next_player_id': next_player_id,
-            'is_ship': answer,
-            'coord': {
-                'x': coord_x,
-                'y': coord_y
-            }
-        }, room=game_id)
+
     except KeyError:
         emit('error', {
             'message': "kind of turururu"
