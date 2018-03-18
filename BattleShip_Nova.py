@@ -108,7 +108,7 @@ def player_fire(data):
     game_id = int(data['game_id'])
     user_id = int(data['user_id'])
     # if user_id == 1, then enemy_id == (1+1)%2 == 0
-    enemy_id = (user_id + 1)%2
+    enemy_id = (user_id + 1) % 2
     print(data)
     coord_x = int(data['coord']['x'])
     coord_y = int(data['coord']['y'])
@@ -120,10 +120,7 @@ def player_fire(data):
             next_player_id = user_id
         else:
             next_player_id = enemy_id
-        for x in game.field:
-            for y in x:
-                print("".join(y), end=" ")
-            print("")
+        game.printfield()
         if game.finished:
             print("the game is finished, winner is ", game.winner)
             emit("game-finished", {

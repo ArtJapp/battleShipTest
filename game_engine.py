@@ -41,15 +41,6 @@ class Game:
         elif player == 2:
             self.field[coor_y][coor_x][3] = '1'
 
-    def user_rasstanovka(self):
-        for i in range(1, MAX_LENGTH_SHIP+1):
-            for j in range(0, MAX_LENGTH_SHIP+1-i):
-                cur_size = i
-                coord_x = int(input("Input x: ")) -1
-                coord_y = int(input("Input y: ")) -1
-                vorh = input("Vertical/horizontal? v/h: ")
-                self.ustanovka(coord_x, coord_y, cur_size, vorh, 1)
-
     def printfield(self):
         for x in range(0, FIELD_SIZE_X):
             for y in range(0, FIELD_SIZE_Y):
@@ -63,8 +54,8 @@ class Game:
             self.field[coor_y][coor_x][0] = '1'
             if self.field[coor_y][coor_x][3] == '1':
                 self.popadeniya1 += 1
-                self.checker()
                 print("HIT")
+                self.checker()
                 return True
             else:
                 print("MISS")
@@ -74,8 +65,8 @@ class Game:
             self.field[coor_y][coor_x][2] = '1'
             if self.field[coor_y][coor_x][1] == '1':
                 self.popadeniya2 += 1
-                self.checker()
                 print("HIT")
+                self.checker()
                 return True
             else:
                 print("MISS")
@@ -95,7 +86,7 @@ class Game:
             position = 3
         for i in range(1, MAX_LENGTH_SHIP+1):
             print(MAX_LENGTH_SHIP+2-i)
-            for j in range(0,MAX_LENGTH_SHIP+1-i):
+            for j in range(0, MAX_LENGTH_SHIP+1-i):
                 cur_size = i
                 rand_vorh = random.randint(0, 100) % 2
                 if rand_vorh:
@@ -146,13 +137,9 @@ class Game:
                     return
                 if x[1] == '1' and x[2] == '0':
                     #the gamer 1 has not bitten cell
-                    if not ans2:
-                        print("ANS2 mat tvou")
                     ans2 = True
                 if x[0] == '0' and x[3] == '1':
                     #the gamer 2 has not bitten cell
-                    if not ans1:
-                        print("ANS1 mat tvou")
                     ans1 = True
         self.finished = True
         if ans1:
