@@ -12,6 +12,7 @@ class Game:
         self.setted_1 = False
         self.setted_2 = False
         self.finished = False
+    #    self.pointer = 0   in case of do more logic on the backend
         self.createfield()
         self.current_player = 0
         self.popadeniya1 = 0
@@ -57,7 +58,6 @@ class Game:
     def fire(self, coor_x, coor_y, player):
         print("Player ", player, " hits in cell (", coor_x+1, ", ", coor_y+1, ")", end="   ")
         if player == 0:
-            # todo: player == 0 then hit player #1 field
             #проверка кораблей второго игрока
             self.field[coor_y][coor_x][0] = '1'
             if self.field[coor_y][coor_x][3] == '1':

@@ -120,7 +120,7 @@ def player_fire(data):
             next_player_id = user_id
         else:
             next_player_id = enemy_id
-
+        print(game.field)
         if game.finished:
             print("the game is finished")
             emit("fired", {
