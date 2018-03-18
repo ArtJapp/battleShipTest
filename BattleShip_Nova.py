@@ -126,15 +126,9 @@ def player_fire(data):
             print("")
         if game.finished:
             print("the game is finished, winner is ", game.winner)
-            emit("fired", {
+            emit("game-finished", {
                 'game_id': game_id,
-                'enemy_id': enemy_id,
-                'next_player_id': -1,
-                'is_ship': answer,
-                'coord': {
-                    'x': coord_x,
-                    'y': coord_y
-                }
+                'winner_id': game.winner
             }, room=game_id)
         emit("fired", {
             'game_id': game_id,
