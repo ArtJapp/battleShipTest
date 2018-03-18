@@ -125,7 +125,7 @@ def player_fire(data):
                 print("".join(y), end=" ")
             print("")
         if game.finished:
-            print("the game is finished")
+            print("the game is finished, winner is ", game.winner)
             emit("fired", {
                 'game_id': game_id,
                 'enemy_id': enemy_id,

@@ -18,6 +18,7 @@ class Game:
         self.popadeniya1 = 0
         self.popadeniya2 = 0
         self.maxpoints = 0
+        self.winner = -1
         for i in range(0, MAX_LENGTH_SHIP):
             for j in range(i, 4):
                 self.maxpoints += i+1
@@ -138,9 +139,20 @@ class Game:
             for x in y:
                 if ans1 and ans2:
                     #it means that both sides have at least 1 cell alive
-                    return True
-                if x[1] == '1' and x[0] == 0:
-                    pass
+                    self.finished = False
+                    return
+                if x[1] == '1' and x[2] == '0':
+                    #the gamer 1 has not bitten cell
+                    ans2 = True
+                if x[0] == '0' and x[3] == '1':
+                    #the gamer 2 has not bitten cell
+                    ans1 = True
+        self.finished = True
+        if ans1:
+            self.winner = 1
+        else:
+            self.winner = 0
+
 
     def auto_ustanovka_testers(self):
         self.computer_initial(0)
