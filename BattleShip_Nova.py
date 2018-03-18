@@ -123,7 +123,7 @@ def player_fire(data):
         for x in game.field:
             for y in x:
                 print("".join(y), end=" ")
-            print()
+            print("")
         if game.finished:
             print("the game is finished")
             emit("fired", {
