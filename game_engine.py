@@ -63,20 +63,23 @@ class Game:
             self.field[coor_y][coor_x][0] = '1'
             if self.field[coor_y][coor_x][3] == '1':
                 self.popadeniya1 += 1
-                print("HIT")
                 self.checker()
+                print("HIT")
                 return True
             else:
                 print("MISS")
+                self.checker()
                 return False
         else:
             self.field[coor_y][coor_x][2] = '1'
             if self.field[coor_y][coor_x][1] == '1':
                 self.popadeniya2 += 1
+                self.checker()
                 print("HIT")
                 return True
             else:
                 print("MISS")
+                self.checker()
                 return False
 
     def join_user2(self, player2):
