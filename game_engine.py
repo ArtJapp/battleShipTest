@@ -35,9 +35,9 @@ class Game:
     def ustanovka(self, coor_x, coor_y, player):
         player += 1
         if player == 1:
-            self.field[coor_y][coor_x][3] = '1'
-        elif player == 2:
             self.field[coor_y][coor_x][1] = '1'
+        elif player == 2:
+            self.field[coor_y][coor_x][3] = '1'
 
     def user_rasstanovka(self):
         for i in range(1, MAX_LENGTH_SHIP+1):
@@ -56,7 +56,7 @@ class Game:
 
     def fire(self, coor_x, coor_y, player):
         print("Player ", player, " hits in cell (", coor_x+1, ", ", coor_y+1, ")", end="   ")
-        if player == 1:
+        if player == 0:
             # todo: player == 0 then hit player #1 field
             #проверка кораблей второго игрока
             self.field[coor_y][coor_x][0] = '1'
@@ -132,8 +132,15 @@ class Game:
             return self.fire(choosen_x, choosen_y, position)
 
     def checker(self):
-        if self.maxpoints == self.popadeniya2 or self.maxpoints == self.popadeniya1:
-            self.finished = True
+        ans1 = False
+        ans2 = False
+        for y in self.field:
+            for x in y:
+                if ans1 and ans2:
+                    #it means that both sides have at least 1 cell alive
+                    return True
+                if x[1] == '1' and x[0] == 0:
+                    pass
 
     def auto_ustanovka_testers(self):
         self.computer_initial(0)
