@@ -150,7 +150,9 @@ class Game:
         self.finished = True
         if ans1:
             self.winner = 1
+            print(self.winner, self.players[self.winner])
         if ans2:
+            print(self.winner, self.players[self.winner])
             self.winner = 0
 
 
