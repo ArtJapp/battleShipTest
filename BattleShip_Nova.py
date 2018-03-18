@@ -149,10 +149,22 @@ def player_fire(data):
 
 
 @socketio.on("disconnect")
-def disconnected(data):
-    game_id = data['game_id']
-    print("Disconnected id=", game_id)
-    leave_room(game_id)
+def disconnected():
+    print("Somebody has disconnected")
+
+
+@socketio.on("leave")
+def lefted(data):
+    print("LEAVING")
+    try:
+        hel = -1
+        hell = -1
+        hel = data['id']
+        hell = data['game_id']
+        print(hel, hell)
+    except KeyError:
+        print('ups')
+
 
 
 if __name__ == '__main__':
