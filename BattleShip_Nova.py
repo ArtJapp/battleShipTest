@@ -4,7 +4,11 @@ from game_engine import *
 from player import *
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+params = {
+    'ping_timeout': 10,
+    'ping_interval': 5
+}
+socketio = SocketIO(app, **params)
 
 ROOMS = {}
 
