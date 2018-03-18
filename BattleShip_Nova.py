@@ -120,7 +120,10 @@ def player_fire(data):
             next_player_id = user_id
         else:
             next_player_id = enemy_id
-        print(game.field)
+        for x in game.field:
+            for y in x:
+                print("".join(y), end=" ")
+            print()
         if game.finished:
             print("the game is finished")
             emit("fired", {
