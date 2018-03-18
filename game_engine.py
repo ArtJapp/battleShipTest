@@ -143,9 +143,13 @@ class Game:
                     return
                 if x[1] == '1' and x[2] == '0':
                     #the gamer 1 has not bitten cell
+                    if not ans2:
+                        print("ANS2 mat tvou")
                     ans2 = True
                 if x[0] == '0' and x[3] == '1':
                     #the gamer 2 has not bitten cell
+                    if not ans1:
+                        print("ANS1 mat tvou")
                     ans1 = True
         self.finished = True
         if ans1:
