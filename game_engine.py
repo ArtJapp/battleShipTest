@@ -12,6 +12,7 @@ class Game:
         self.setted_1 = False
         self.setted_2 = False
         self.finished = False
+        self.error = False
     #    self.pointer = 0   in case of do more logic on the backend
         self.createfield()
         self.current_player = 0
@@ -51,26 +52,41 @@ class Game:
         print("Player ", player, " hits in cell (", coor_x+1, ", ", coor_y+1, ")", end="   ")
         if player == 0:
             #проверка кораблей второго игрока
-            self.field[coor_y][coor_x][0] = '1'
+
             if self.field[coor_y][coor_x][3] == '1':
-                self.popadeniya1 += 1
-                print("HIT")
-                self.checker()
+                if self.field[coor_y][coor_x][0] == '0':
+                    self.field[coor_y][coor_x][0] = '1'
+                    self.popadeniya1 += 1
+                    print("HIT")
+                    self.checker()
+                else:
+                    self.error = True
                 return True
             else:
-                print("MISS")
-                self.checker()
+                if self.field[coor_y][coor_x][0] == '0':
+                    self.field[coor_y][coor_x][0] = '1'
+                    print("MISS")
+                    self.checker()
+                else:
+                    self.error = True
                 return False
         else:
-            self.field[coor_y][coor_x][2] = '1'
             if self.field[coor_y][coor_x][1] == '1':
-                self.popadeniya2 += 1
-                print("HIT")
-                self.checker()
+                if self.field[coor_y][coor_x][2] == '0':
+                    self.field[coor_y][coor_x][2] = '1'
+                    self.popadeniya2 += 1
+                    print("HIT")
+                    self.checker()
+                else:
+                    self.error = True
                 return True
             else:
-                print("MISS")
-                self.checker()
+                if self.field[coor_y][coor_x][2] == '0':
+                    self.field[coor_y][coor_x][2] = '1'
+                    print("MISS")
+                    self.checker()
+                else:
+                    self.error = True
                 return False
 
     def join_user2(self, player2):
@@ -97,7 +113,7 @@ class Game:
                         coord_x = random.randint(1, FIELD_SIZE_X - cur_size) - 1
                         coord_y = random.randint(1, FIELD_SIZE_Y) - 1
                     print("horyz: ", coord_x, coord_y)
-                    self.ustanovka(coord_x, coord_y, cur_size, 'h', position+1)
+                 #   self.ustanovka(coord_x, coord_y, cur_size, 'h', position+1)
                 else:
                     coord_x = random.randint(1, FIELD_SIZE_X) - 1
                     coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
@@ -105,7 +121,7 @@ class Game:
                         coord_x = random.randint(1, FIELD_SIZE_X) - 1
                         coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
                     print("vert: ", coord_x, coord_y)
-                    self.ustanovka(coord_x, coord_y, cur_size, 'v', position+1)
+                  #  self.ustanovka(coord_x, coord_y, cur_size, 'v', position+1)
 
     def computer_gamer(self):
         choosen_x = random.randint(1, FIELD_SIZE_X) - 1
@@ -149,35 +165,10 @@ class Game:
             print(self.winner, self.players[self.winner])
             self.winner = 0
 
-
     def auto_ustanovka_testers(self):
         self.computer_initial(0)
         self.computer_initial(1)
         self.printfield()
 
-    def start_game(self):
-        print("The game ", self.id, " has been started with gamers: ", self.players)
-        self.running = True
-        pointer = 1
-        while self.running and not self.finished:
-            self.printfield()
-            self.current_player = pointer
-            print("Current player is ", pointer)
-            if pointer == 0:
-                ans = self.user_gamer(0)
-                if ans:
-                    pointer = 0
-                else:
-                    pointer = 1
-            else:
-                ans = self.user_gamer(1)
-                if ans:
-                    pointer = 1
-                else:
-                    pointer = 0
-        print("STOP GAME")
-        print(self.popadeniya1)
-        print(self.popadeniya2)
-        self.finished = True
 
 
