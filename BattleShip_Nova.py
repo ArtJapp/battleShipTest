@@ -148,7 +148,7 @@ def player_fire(data):
         })
 
 
-@socketio.on("disconnest")
+@socketio.on("disconnect")
 def disconnected(data):
     game_id = data['game_id']
     print("Disconnected id=", game_id)
