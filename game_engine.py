@@ -150,7 +150,7 @@ class Game:
         self.finished = True
         if ans1:
             self.winner = 1
-        else:
+        if ans2:
             self.winner = 0
 
 
