@@ -134,16 +134,18 @@ def player_fire(data):
                     'game_id': game_id,
                     'winner_id': game.winner
                 }, room=game_id)
-            emit("fired", {
-                'game_id': game_id,
-                'enemy_id': enemy_id,
-                'next_player_id': next_player_id,
-                'is_ship': answer,
-                'coord': {
-                    'x': coord_x,
-                    'y': coord_y
-                }
-            }, room=game_id)
+            else:
+                emit("fired", {
+                    'game_id': game_id,
+                    'enemy_id': enemy_id,
+                    'next_player_id': next_player_id,
+                    'is_ship': answer,
+                    'coord': {
+                        'x': coord_x,
+                        'y': coord_y
+                    }
+                }, room=game_id)
+
 
     except KeyError:
         emit('error', {
