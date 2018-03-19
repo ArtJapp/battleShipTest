@@ -157,11 +157,12 @@ class Game:
                 if x[0] == '0' and x[3] == '1':
                     #the gamer 2 has not bitten cell
                     ans1 = True
-        self.finished = True
-        if ans1:
+        if ans1 and not ans2:
+            self.finished = True
             self.winner = 1
             print(self.winner, self.players[self.winner])
-        if ans2:
+        if ans2 and not ans1:
+            self.finished = True
             print(self.winner, self.players[self.winner])
             self.winner = 0
 
