@@ -142,10 +142,7 @@ def player_fire(data):
 
             if game.finished:
                 print("the game is finished, winner is ", game.winner)
-                emit("game-finished", {
-                    'game_id': game_id,
-                    'winner_id': game.winner
-                }, room=game_id)
+                emit("game-finished", game.statistics(), room=game_id)
 
     except KeyError:
         emit('error', {

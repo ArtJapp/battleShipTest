@@ -18,11 +18,9 @@ class Game:
         self.current_player = 0
         self.popadeniya1 = 0
         self.popadeniya2 = 0
-        self.maxpoints = 0
+        self.fires1 = 0
+        self.fires2 = 0
         self.winner = -1
-        for i in range(0, MAX_LENGTH_SHIP):
-            for j in range(i, 4):
-                self.maxpoints += i+1
 
     def createfield(self):
         '''
@@ -56,15 +54,22 @@ class Game:
             if self.field[coor_y][coor_x][3] == '1':
                 if self.field[coor_y][coor_x][0] == '0':
                     self.field[coor_y][coor_x][0] = '1'
+
                     self.popadeniya1 += 1
+                    self.fires1 += 1
+
                     print("HIT")
                     self.checker()
                 else:
+                    # если пользователь уже бил в это поле
                     self.error = True
                 return True
             else:
                 if self.field[coor_y][coor_x][0] == '0':
                     self.field[coor_y][coor_x][0] = '1'
+
+                    self.fires1 += 1
+
                     print("MISS")
                     self.checker()
                 else:
@@ -74,7 +79,10 @@ class Game:
             if self.field[coor_y][coor_x][1] == '1':
                 if self.field[coor_y][coor_x][2] == '0':
                     self.field[coor_y][coor_x][2] = '1'
+
                     self.popadeniya2 += 1
+                    self.fires2 += 1
+
                     print("HIT")
                     self.checker()
                 else:
@@ -83,6 +91,9 @@ class Game:
             else:
                 if self.field[coor_y][coor_x][2] == '0':
                     self.field[coor_y][coor_x][2] = '1'
+
+                    self.fires2 += 1
+
                     print("MISS")
                     self.checker()
                 else:
@@ -113,7 +124,6 @@ class Game:
                         coord_x = random.randint(1, FIELD_SIZE_X - cur_size) - 1
                         coord_y = random.randint(1, FIELD_SIZE_Y) - 1
                     print("horyz: ", coord_x, coord_y)
-                 #   self.ustanovka(coord_x, coord_y, cur_size, 'h', position+1)
                 else:
                     coord_x = random.randint(1, FIELD_SIZE_X) - 1
                     coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
@@ -171,5 +181,17 @@ class Game:
         self.computer_initial(1)
         self.printfield()
 
-
+    def statistics(self):
+        return {
+            "game_id": self.id,
+            "winner": self.winner,
+            "gamer_1": {
+                "hits": self.popadeniya1,
+                "fires": self.fires1
+            },
+            "gamer_2": {
+                "hits": self.popadeniya2,
+                "fires": self.fires1
+            }
+        }
 
