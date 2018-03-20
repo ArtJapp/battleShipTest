@@ -185,7 +185,7 @@ class Game:
         self.checker()
         return {
             "game_id": self.id,
-            "winner": self.winner,
+            "winner_id": self.winner,
             "gamer_1": {
                 "hits": self.popadeniya1,
                 "fires": self.fires1
