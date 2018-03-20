@@ -35,7 +35,7 @@ def create_game(data):
 def join_game(data):
     # TODO change condition (if len(ROOMS) > game_id) with try/except
     game_id = int(data['game_id'])
-    if len(ROOMS) > game_id:
+    try:
         game = ROOMS[game_id]
         answer = game.join_user2(data['name'])
         if answer:
@@ -62,8 +62,9 @@ def join_game(data):
                 'game_id': game.id,
                 'users_id': some_users_list
             })
-    else:
+    except KeyError:
         print("The game with id=", game_id, " doesn't exist")
+        # emit("")
 
 
 @socketio.on("setup-ships")
@@ -153,20 +154,6 @@ def player_fire(data):
 @socketio.on("disconnect")
 def disconnected():
     print("Somebody has disconnected")
-
-
-@socketio.on("leave")
-def lefted(data):
-    print("LEAVING")
-    try:
-        hel = -1
-        hell = -1
-        hel = data['id']
-        hell = data['game_id']
-        print(hel, hell)
-    except KeyError:
-        print('ups')
-
 
 
 if __name__ == '__main__':
