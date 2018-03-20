@@ -182,6 +182,7 @@ class Game:
         self.printfield()
 
     def statistics(self):
+        self.checker()
         return {
             "game_id": self.id,
             "winner": self.winner,
@@ -191,7 +192,7 @@ class Game:
             },
             "gamer_2": {
                 "hits": self.popadeniya2,
-                "fires": self.fires1
+                "fires": self.fires2
             }
         }
 
