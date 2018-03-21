@@ -52,9 +52,3 @@ class Signals:
         return str(attres)
 
 
-gam = Game(4, "pushok")
-gam.join_user2("not pushok")
-sgn = Signals(520, game=gam)
-attrs = vars(sgn)
-print(attrs)
-print(str(sgn))
