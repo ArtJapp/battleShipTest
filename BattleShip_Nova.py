@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from flask_socketio import SocketIO, join_room, close_room, leave_room, emit
 from game_engine import *
 from player import *
+from signals import Signals
 
 app = Flask(__name__)
 
@@ -64,6 +65,7 @@ def join_game(data):
             })
     except KeyError:
         print("The game with id=", game_id, " doesn't exist")
+        emit("error", Signals(519))
         # emit("")
 
 
