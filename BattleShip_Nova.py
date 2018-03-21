@@ -43,26 +43,13 @@ def join_game(data):
             print("Yes, gamer ", data['name'], " has joined")
             join_room(game_id)
 
-            emit('joined', {
-                'game_id': game.id,
-                'enemy': {
-                    'id': game.players[0].get_id(),
-                    'name': game.players[0].get_name()
-                },
-                'user': {
-                    'id': game.players[1].get_id(),
-                    'name': game.players[1].get_name()
-                }
-            }, room=game_id)
+            emit('joined', Signals(221, game=game), room=game_id)
         else:
             print("Nope, gamer ", data['name'], " cannot join this game")
             some_users_list = []
             for x in game.players:
                 some_users_list.append(x.get_name())
-            emit('forbidden', {
-                'game_id': game.id,
-                'users_id': some_users_list
-            })
+            emit('forbidden', Signals(520, game=game), room=game_id)
     except KeyError:
         print("The game with id=", game_id, " doesn't exist")
         emit("error", Signals(519))
@@ -97,13 +84,11 @@ def setting_ships_up(data):
             socketio.emit("game-started", {
                 "game_id": game_id,
                 "next_player_id": 0
-            })
+            }, room=game_id)
 
     except KeyError:
         print("No game with such id")
-        emit('error', {
-            'message': "No game with such ID"
-        })
+        emit('error', Signals(519))
 
 
 @socketio.on("fire")
