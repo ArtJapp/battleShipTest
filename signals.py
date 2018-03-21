@@ -107,7 +107,7 @@ class Signals:
 
     def __str__(self):
         attres = vars(self)
-        print(attres)
+        print(str(attres))
         return str(attres)
 
 
