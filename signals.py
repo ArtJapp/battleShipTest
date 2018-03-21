@@ -1,4 +1,5 @@
 from game_engine import Game
+import json
 
 ERRORS = {
     "505": {
@@ -107,7 +108,7 @@ class Signals:
 
     def __str__(self):
         attres = vars(self)
-        print(str(attres))
-        return str(attres)
+        print(json.dumps(attres))
+        return json.dumps(attres)
 
 
