@@ -105,13 +105,9 @@ class Signals:
                 'name': game.players[1].get_name()
             }
 
-
     def __str__(self):
         attres = vars(self)
+        print(attres)
         return str(attres)
 
 
-gam = Game(4, "pushok")
-gam.join_user2("not pushok")
-sgn = Signals(221, game=gam)
-print(str(sgn))
