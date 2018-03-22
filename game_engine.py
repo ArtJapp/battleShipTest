@@ -111,69 +111,20 @@ class Game:
         self.players.append(Player(player2, 1))
         return True
 
-    def computer_initial(self, player=1):
-        if player == 0:
-            position = 1
-        else:
-            position = 3
-        for i in range(1, MAX_LENGTH_SHIP+1):
-            print(MAX_LENGTH_SHIP+2-i)
-            for j in range(0, MAX_LENGTH_SHIP+1-i):
-                cur_size = i
-                rand_vorh = random.randint(0, 100) % 2
-                if rand_vorh:
-                    #horyzontal
-                    coord_x = random.randint(1, FIELD_SIZE_X-cur_size) - 1
-                    coord_y = random.randint(1, FIELD_SIZE_Y) - 1
-                    while self.field[coord_x][coord_y][position] == '1':
-                        coord_x = random.randint(1, FIELD_SIZE_X - cur_size) - 1
-                        coord_y = random.randint(1, FIELD_SIZE_Y) - 1
-                    print("horyz: ", coord_x, coord_y)
-                else:
-                    coord_x = random.randint(1, FIELD_SIZE_X) - 1
-                    coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
-                    while self.field[coord_x][coord_y][position] == '1':
-                        coord_x = random.randint(1, FIELD_SIZE_X) - 1
-                        coord_y = random.randint(1, FIELD_SIZE_Y - cur_size) - 1
-                    print("vert: ", coord_x, coord_y)
-                  #  self.ustanovka(coord_x, coord_y, cur_size, 'v', position+1)
-
-    def computer_gamer(self):
-        choosen_x = random.randint(1, FIELD_SIZE_X) - 1
-        choosen_y = random.randint(1, FIELD_SIZE_Y) - 1
-        while self.field[choosen_x][choosen_y][2] != '0':
-            choosen_x = random.randint(1, FIELD_SIZE_X) - 1
-            choosen_y = random.randint(1, FIELD_SIZE_Y) - 1
-        self.fire(choosen_x, choosen_y, 2)
-
-    def user_gamer(self, player):
-        choosen_x = int(input("Выберите координату х"))-1
-        choosen_y = int(input("Выберите координату y"))-1
-
-        if player == 0:
-            position = 1
-        else:
-            position = 3
-        if 0 <= choosen_y < FIELD_SIZE_Y and FIELD_SIZE_X > choosen_x >= 0:
-            return self.fire(choosen_x, choosen_y, position)
-
     def killed_ship(self, coord_x, coord_y, player):
         if player == 0:
-            posititon_move = 0
-            posititon_fire = 3
+            positition_move = 0
+            positition_fire = 3
         else:
-            posititon_move = 2
-            posititon_fire = 1
+            positition_move = 2
+            positition_fire = 1
         ans = True
         for y in range(coord_y-1, coord_y+2):
             if y >= 0:
                 print(y, ":   ", end="")
                 for x in range(coord_x-1, coord_x+2):
                     if x >= 0:
-                        print(self.field[y][x][posititon_move], self.field[y][x][posititon_fire],
-                              self.field[y][x][posititon_fire] == '1' and self.field[y][x][posititon_move] == '0', end="   ")
-                        if self.field[y][x][posititon_fire] == '1' and self.field[y][x][posititon_move] == '0':
-                            print("The ship hasn't killed yet")
+                        if self.field[y][x][positition_fire] == '1' and self.field[y][x][positition_move] == '0':
                             ans = False
                 print()
 
@@ -204,16 +155,9 @@ class Game:
         if ans1 and not ans2:
             self.finished = True
             self.winner = 1
-            print(self.winner, self.players[self.winner])
         if ans2 and not ans1:
             self.finished = True
-            print(self.winner, self.players[self.winner])
             self.winner = 0
-
-    def auto_ustanovka_testers(self):
-        self.computer_initial(0)
-        self.computer_initial(1)
-        self.printfield()
 
     def statistics(self):
         self.checker()
