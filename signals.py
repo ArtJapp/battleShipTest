@@ -99,7 +99,8 @@ class Signals:
             self.game_id = game.id
             self.enemy = {
                 'id': game.players[0].get_id(),
-                'name': str(game.players[0].get_name())
+
+                'name': game.players[0].get_name()
             }
             self.user = {
                 'id': game.players[1].get_id(),
@@ -110,5 +111,4 @@ class Signals:
         attres = vars(self)
         print(json.dumps(attres))
         return json.dumps(attres)
-
 

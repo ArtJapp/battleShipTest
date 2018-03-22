@@ -131,11 +131,12 @@ def player_fire(data):
                 'game_id': game_id,
                 'enemy_id': enemy_id,
                 'next_player_id': next_player_id,
-                'is_ship': answer,
+                'is_hit': answer,
                 'coord': {
                     'x': coord_x,
                     'y': coord_y
-                }
+                },
+                'is_ship': game.get_killed_ship()
             }, room=game_id)
 
             if game.finished:

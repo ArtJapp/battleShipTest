@@ -18,6 +18,9 @@ class Game:
         self.current_player = 0
         self.popadeniya1 = 0
         self.popadeniya2 = 0
+
+        self._ship_killed = False
+
         self.fires1 = 0
         self.fires2 = 0
         self.winner = -1
@@ -57,6 +60,7 @@ class Game:
 
                     self.popadeniya1 += 1
                     self.fires1 += 1
+                    self._ship_killed = self.killed_ship(coor_x, coor_y, player)
 
                     print("HIT")
                     self.checker()
@@ -82,6 +86,7 @@ class Game:
 
                     self.popadeniya2 += 1
                     self.fires2 += 1
+                    self._ship_killed = self.killed_ship(coor_x, coor_y, player)
 
                     print("HIT")
                     self.checker()
@@ -151,6 +156,29 @@ class Game:
             position = 3
         if 0 <= choosen_y < FIELD_SIZE_Y and FIELD_SIZE_X > choosen_x >= 0:
             return self.fire(choosen_x, choosen_y, position)
+
+    def killed_ship(self, coord_x, coord_y, player):
+        if player == 0:
+            posititon_move = 0
+            posititon_fire = 3
+        else:
+            posititon_move = 2
+            posititon_fire = 1
+
+        for y in range(coord_y-1, coord_y+2):
+            if y >= 0:
+                for x in range(coord_x-1, coord_x+2):
+                    if x >= 0:
+                        if self.field[posititon_fire] == '1' and self.field[posititon_move] == '0':
+                            print("The ship hasn't killed yet")
+                            return False
+        print("the ship is killed")
+        return True
+
+    def get_killed_ship(self):
+        ans = self._ship_killed
+        self._ship_killed = False
+        return ans
 
     def checker(self):
         ans1 = False
