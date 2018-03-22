@@ -161,16 +161,22 @@ class Game:
 
     def statistics(self):
         self.checker()
+
         return {
             "game_id": self.id,
             "winner_id": self.winner,
             "gamer_1": {
                 "hits": self.popadeniya1,
-                "fires": self.fires1
+                "fires": self.fires1,
+                "user_id": 0,
+                "area": [[y[1] for y in x] for x in self.field]
             },
             "gamer_2": {
                 "hits": self.popadeniya2,
-                "fires": self.fires2
+                "fires": self.fires2,
+                "user_id": 1,
+                "area": [[y[3] for y in x] for x in self.field]
+
             }
         }
 
