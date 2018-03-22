@@ -167,11 +167,15 @@ class Game:
 
         for y in range(coord_y-1, coord_y+2):
             if y >= 0:
+                print(y, ":   ", end="")
                 for x in range(coord_x-1, coord_x+2):
                     if x >= 0:
+                        print(self.field[posititon_move], self.field[posititon_fire],
+                              self.field[posititon_fire] == '1' and self.field[posititon_move] == '0', end="   ")
                         if self.field[posititon_fire] == '1' and self.field[posititon_move] == '0':
                             print("The ship hasn't killed yet")
                             return False
+                print()
         print("the ship is killed")
         return True
 
