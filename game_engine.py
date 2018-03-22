@@ -164,7 +164,7 @@ class Game:
         else:
             posititon_move = 2
             posititon_fire = 1
-
+        ans = True
         for y in range(coord_y-1, coord_y+2):
             if y >= 0:
                 print(y, ":   ", end="")
@@ -174,10 +174,12 @@ class Game:
                               self.field[posititon_fire] == '1' and self.field[posititon_move] == '0', end="   ")
                         if self.field[posititon_fire] == '1' and self.field[posititon_move] == '0':
                             print("The ship hasn't killed yet")
-                            return False
+                            ans = False
                 print()
-        print("the ship is killed")
-        return True
+
+        if ans:
+            print("the ship is killed")
+        return ans
 
     def get_killed_ship(self):
         ans = self._ship_killed
