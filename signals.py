@@ -99,16 +99,15 @@ class Signals:
             self.game_id = game.id
             self.enemy = json.dumps({
                 'id': game.players[0].get_id(),
-                'name': game.players[0].get_name()
+                'name': str(game.players[0].get_name())
             })
             self.user = json.dumps({
                 'id': game.players[1].get_id(),
-                'name': game.players[1].get_name()
+                'name': str(game.players[1].get_name())
             })
 
     def __str__(self):
         attres = vars(self)
         print(json.dumps(attres))
         return json.dumps(attres)
-
 
