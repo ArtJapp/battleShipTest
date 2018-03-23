@@ -60,10 +60,11 @@ class Game:
 
                     self.popadeniya1 += 1
                     self.fires1 += 1
-                    self._ship_killed = self.killed_ship(coor_x, coor_y, player)
 
                     print("HIT")
                     self.checker()
+                    self._ship_killed = self.killed_ship(coor_x, coor_y, player)
+
                 else:
                     # если пользователь уже бил в это поле
                     self.error = True
@@ -86,10 +87,11 @@ class Game:
 
                     self.popadeniya2 += 1
                     self.fires2 += 1
-                    self._ship_killed = self.killed_ship(coor_x, coor_y, player)
 
                     print("HIT")
                     self.checker()
+                    self._ship_killed = self.killed_ship(coor_x, coor_y, player)
+
                 else:
                     self.error = True
                 return True
@@ -120,10 +122,9 @@ class Game:
             positition_fire = 1
         ans = True
         for y in range(coord_y-1, coord_y+2):
-            if y >= 0:
-                print(y, ":   ", end="")
+            if 0 <= y < 10:
                 for x in range(coord_x-1, coord_x+2):
-                    if x >= 0:
+                    if 0 <= x < 10:
                         if self.field[y][x][positition_fire] == '1' and self.field[y][x][positition_move] == '0':
                             ans = False
                 print()
@@ -167,15 +168,15 @@ class Game:
             "winner_id": self.winner,
             "users": [
                 {
+                    "user_id": 0,
                     "hits": self.popadeniya1,
                     "fires": self.fires1,
-                    "user_id": 0,
                     "area": [[y[1] for y in x] for x in self.field]
                 },
                 {
+                    "user_id": 1,
                     "hits": self.popadeniya2,
                     "fires": self.fires2,
-                    "user_id": 1,
                     "area": [[y[3] for y in x] for x in self.field]
                 },
             ],
