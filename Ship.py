@@ -18,6 +18,9 @@ class Cell:
     def is_alive(self):
         return not self._bitten
 
+    def __str__(self):
+        return (self._coord_x, self._coord_y, self._bitten)
+
 
 class Ship:
     def __init__(self, **kwargs):
@@ -46,6 +49,10 @@ class Ship:
 
     def is_alive(self):
         return self._is_alive
+
+    def __str__(self):
+        attres = vars(self)
+        return attres
 
 
 #shipik = Ship(size=2, coordinates=[{'x': 3, 'y': 4}, {'x': 3, 'y': 5}])

@@ -129,6 +129,7 @@ def player_fire(data):
 
             if game.finished:
                 print("the game is finished, winner is ", game.winner)
+
                 print(game.statistics())
                 emit("game-finished", game.statistics(), room=game_id)
 
