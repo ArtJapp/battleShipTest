@@ -104,11 +104,8 @@ def player_fire(data):
     print(coord_x, coord_y)
     try:
         game = ROOMS[game_id]
-        answer = game.fire(coord_x, coord_y, user_id)
-        if answer:
-            next_player_id = user_id
-        else:
-            next_player_id = enemy_id
+        hitted, killed, error = game.fire(coord_x, coord_y, user_id)
+
         game.printfield()
         if game.error:
             print("Game ", game_id, "error")
@@ -121,13 +118,13 @@ def player_fire(data):
             emit("fired", {
                 'game_id': game_id,
                 'enemy_id': enemy_id,
-                'next_player_id': next_player_id,
-                'is_hit': answer,
+                'next_player_id': game.current_player,
+                'is_hit': hitted,
                 'coord': {
                     'x': coord_x,
                     'y': coord_y
                 },
-                'is_ship': game.get_killed_ship()
+                'is_ship': killed
             }, room=game_id)
 
             if game.finished:
