@@ -71,19 +71,10 @@ def setting_ships_up(data):
     game_id = int(data['game_id'])
     player_id = int(data['user_id'])
    # print("Ships has been planted", data)
-    ships = data['ships']
 
     try:
         game = ROOMS[game_id]
-        for x in ships:
-            size = x['size']
-            coordinates = x['coordinates']
-            print(size)
-            for m in coordinates:
-                print(m)
-                x = m['x']
-                y = m['y']
-                game.ustanovka(coor_x=x, coor_y=y, player=player_id)
+        game.ustanovka(data)
         if player_id == 0:
             game.setted_1 = True
         elif player_id == 1:

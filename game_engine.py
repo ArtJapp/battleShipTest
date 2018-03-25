@@ -1,6 +1,6 @@
 from settings import *
 import random
-from player import *
+from player import Player
 
 #todo check function that checks the end of game
 class Game:
@@ -9,20 +9,12 @@ class Game:
         self.field = []
         self.players = [Player(player1, 0)]
         self.running = False
-        self.setted_1 = False
-        self.setted_2 = False
         self.finished = False
         self.error = False
     #    self.pointer = 0   in case of do more logic on the backend
         self.createfield()
         self.current_player = 0
-        self.popadeniya1 = 0
-        self.popadeniya2 = 0
 
-        self._ship_killed = False
-
-        self.fires1 = 0
-        self.fires2 = 0
         self.winner = -1
 
     def createfield(self):
@@ -36,12 +28,15 @@ class Game:
         '''
         self.field = [[['0'] * 4 for j in range(FIELD_SIZE_Y)] for i in range(FIELD_SIZE_X)]
 
-    def ustanovka(self, coor_x, coor_y, player):
-        player += 1
-        if player == 1:
-            self.field[coor_y][coor_x][1] = '1'
-        elif player == 2:
-            self.field[coor_y][coor_x][3] = '1'
+    def join_user2(self, player2):
+        if len(self.players) >= 2:
+            return False
+        self.players.append(Player(player2, 1))
+        return True
+
+    def ustanovka(self, **kwargs):
+        player = kwargs['user_id']
+        self.players[player].set_ships(kwargs['ships'])
 
     def printfield(self):
         for x in range(0, FIELD_SIZE_X):
@@ -51,114 +46,48 @@ class Game:
 
     def fire(self, coor_x, coor_y, player):
         print("Player ", player, " hits in cell (", coor_x+1, ", ", coor_y+1, ")", end="   ")
-        if player == 0:
-            #проверка кораблей второго игрока
+        hited = False
+        killed = False
+        if player == self.current_player:
 
-            if self.field[coor_y][coor_x][3] == '1':
-                if self.field[coor_y][coor_x][0] == '0':
-                    self.field[coor_y][coor_x][0] = '1'
+            enemy = (player + 1) % 2
+            gamer = self.players[enemy]
 
-                    self.popadeniya1 += 1
-                    self.fires1 += 1
+            hited, killed = gamer.fire(coord_x=coor_x, coord_y=coor_y)
 
-                    print("HIT")
-                    self.checker()
-                    self._ship_killed = self.killed_ship(coor_x, coor_y, player)
-
-                else:
-                    # если пользователь уже бил в это поле
-                    self.error = True
-                return True
+            if hited:
+                print("HIT")
+                self.current_player = player
             else:
-                if self.field[coor_y][coor_x][0] == '0':
-                    self.field[coor_y][coor_x][0] = '1'
+                print("MISS")
+                self.current_player = enemy
 
-                    self.fires1 += 1
-
-                    print("MISS")
-                    self.checker()
-                else:
-                    self.error = True
-                return False
+            if killed:
+                print("Ship is killed")
         else:
-            if self.field[coor_y][coor_x][1] == '1':
-                if self.field[coor_y][coor_x][2] == '0':
-                    self.field[coor_y][coor_x][2] = '1'
+            print("Not your hod, bitch")
+            self.error = True
+        return hited, killed, self.get_error()
 
-                    self.popadeniya2 += 1
-                    self.fires2 += 1
-
-                    print("HIT")
-                    self.checker()
-                    self._ship_killed = self.killed_ship(coor_x, coor_y, player)
-
-                else:
-                    self.error = True
-                return True
-            else:
-                if self.field[coor_y][coor_x][2] == '0':
-                    self.field[coor_y][coor_x][2] = '1'
-
-                    self.fires2 += 1
-
-                    print("MISS")
-                    self.checker()
-                else:
-                    self.error = True
-                return False
-
-    def join_user2(self, player2):
-        if len(self.players) >= 2:
-            return False
-        self.players.append(Player(player2, 1))
-        return True
-
-    def killed_ship(self, coord_x, coord_y, player):
-        if player == 0:
-            positition_move = 0
-            positition_fire = 3
-        else:
-            positition_move = 2
-            positition_fire = 1
-        ans = True
-        for y in range(coord_y-1, coord_y+2):
-            if 0 <= y < 10:
-                for x in range(coord_x-1, coord_x+2):
-                    if 0 <= x < 10:
-                        if self.field[y][x][positition_fire] == '1' and self.field[y][x][positition_move] == '0':
-                            ans = False
-                print()
-
-        if ans:
-            print("the ship is killed")
+    def get_error(self):
+        ans = self.error
+        self.error = False
         return ans
 
-    def get_killed_ship(self):
-        ans = self._ship_killed
-        self._ship_killed = False
-        return ans
 
     def checker(self):
         ans1 = False
         ans2 = False
-        for y in self.field:
-            for x in y:
-                if ans1 and ans2:
-                    #it means that both sides have at least 1 cell alive
-                    self.finished = False
-                    return
-                if x[1] == '1' and x[2] == '0':
-                    #the gamer 1 has not bitten cell
-                    ans2 = True
-                if x[0] == '0' and x[3] == '1':
-                    #the gamer 2 has not bitten cell
-                    ans1 = True
+
+        ans1 = self.players[0].still_alive()
+        ans2 = self.players[1].still_alive()
+
         if ans1 and not ans2:
             self.finished = True
-            self.winner = 1
+            self.winner = 0
         if ans2 and not ans1:
             self.finished = True
-            self.winner = 0
+            self.winner = 1
 
     def statistics(self):
         self.checker()
@@ -169,15 +98,15 @@ class Game:
             "users": [
                 {
                     "user_id": 0,
-                    "hits": self.popadeniya1,
-                    "fires": self.fires1,
-                    "area": [[y[1] for y in x] for x in self.field]
+                    "hits": self.players[0].get_hits(),
+                    "fires": self.players[0].get_fires(),
+                   # "area": [[y[1] for y in x] for x in self.field]
                 },
                 {
                     "user_id": 1,
-                    "hits": self.popadeniya2,
-                    "fires": self.fires2,
-                    "area": [[y[3] for y in x] for x in self.field]
+                    "hits": self.players[1].get_hits(),
+                    "fires": self.players[1].get_fires(),
+                   # "area": [[y[3] for y in x] for x in self.field]
                 },
             ],
         }
