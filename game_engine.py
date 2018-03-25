@@ -72,6 +72,7 @@ class Game:
         else:
             print("Not your hod, bitch")
             self.error = True
+        self.checker()
         return hited, killed, self.get_error()
 
     def get_error(self):
