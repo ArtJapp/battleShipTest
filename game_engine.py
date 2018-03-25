@@ -105,13 +105,14 @@ class Game:
                     "user_id": 0,
                     "hits": self.players[0].get_hits(),
                     "fires": self.players[0].get_fires(),
-                   # "area": [[y[1] for y in x] for x in self.field]
+                    "ships": self.players[0].ships
                 },
                 {
                     "user_id": 1,
                     "hits": self.players[1].get_hits(),
                     "fires": self.players[1].get_fires(),
-                   # "area": [[y[3] for y in x] for x in self.field]
+                    "ships": self.players[1].ships
+                    # "area": [[y[3] for y in x] for x in self.field]
                 },
             ],
         }
