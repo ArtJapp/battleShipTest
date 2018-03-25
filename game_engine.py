@@ -13,6 +13,8 @@ class Game:
         self.error = False
     #    self.pointer = 0   in case of do more logic on the backend
         self.createfield()
+        self.setted_1 = False
+        self.setted_2 = False
         self.current_player = 0
 
         self.winner = -1
