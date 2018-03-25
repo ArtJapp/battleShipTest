@@ -54,9 +54,11 @@ class Game:
         if player == self.current_player:
 
             enemy = (player + 1) % 2
-            gamer = self.players[enemy]
+            gamer = self.players[player]
+            enemy_gamer = self.players[enemy]
 
-            hited, killed = gamer.fire(coord_x=coor_x, coord_y=coor_y)
+            hited, killed = enemy_gamer.fire(coord_x=coor_x, coord_y=coor_y)
+            gamer.fired(hited)
 
             if hited:
                 print("HIT")
@@ -76,7 +78,6 @@ class Game:
         ans = self.error
         self.error = False
         return ans
-
 
     def checker(self):
         ans1 = False
@@ -113,4 +114,27 @@ class Game:
                 },
             ],
         }
+
+
+# gam = Game(0, "Pushok")
+# gam.join_user2("Not Pushok")
+# gam.players[0].set_ships([{'size': 2, 'coordinates': [{'x': 3, 'y': 4}, {'x': 3, 'y': 5}]},
+#                           {'size': 3, 'coordinates': [{'x': 5, 'y': 6}, {'x': 6, 'y': 6}, {'x': 7, 'y': 6}]}])
+# print(gam.players[0].ships)
+# gam.players[1].set_ships([{'size': 1, 'coordinates': [{'x': 4, 'y': 7}]},
+#                           {'size': 4, 'coordinates': [{'x': 5, 'y': 2}, {'x': 5, 'y': 3}, {'x': 5, 'y': 4}, {'x': 5, 'y': 5}]}])
+# gam.running = True
+# print(gam.fire(5, 2, 0))
+# print(gam.fire(5, 3, 0))
+# print(gam.fire(5, 2, 1))
+# print(gam.fire(5, 4, 0))
+# print(gam.fire(5, 5, 0))
+# print(gam.fire(5, 2, 1))
+# print(gam.fire(5, 2, 0))
+# print(gam.fire(5, 6, 1))
+# print(gam.fire(5, 6, 1))
+# print(gam.statistics())
+# print(gam.fire(4, 7, 0))
+# print(gam.players[0].still_alive(), print(gam.players[1].still_alive()))
+# print(gam.statistics())
 

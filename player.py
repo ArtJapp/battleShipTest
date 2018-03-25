@@ -40,11 +40,17 @@ class Player:
                 ans = answer
         return (ans, killed)
 
+    def fired(self, hit):
+        self._fires += 1
+        if hit:
+            self._hits += 1
+
     def still_alive(self):
         ans = False
         for x in self.ships:
             if x.is_alive():
                 ans = True
+        return ans
 
     def get_hits(self):
         return self._hits

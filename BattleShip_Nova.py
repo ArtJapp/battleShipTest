@@ -34,7 +34,6 @@ def create_game(data):
 
 @socketio.on('join')
 def join_game(data):
-    # TODO change condition (if len(ROOMS) > game_id) with try/except
     game_id = int(data['game_id'])
     try:
         game = ROOMS[game_id]
