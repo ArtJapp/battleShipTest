@@ -51,8 +51,16 @@ class Ship:
         return self._is_alive
 
     def __str__(self):
-        attres = vars(self)
-        return attres
+        answer = dict()
+        answer['alive'] = self.is_alive()
+        answer['coords'] = []
+        for cell in self._cells:
+            temp_dict = dict()
+            temp_dict['x'], temp_dict['y'], is_bitten = cell.__str__()
+            temp_dict['alive'] = not is_bitten
+            answer['coords'].append(temp_dict)
+        answer['size'] = len(self._cells)
+        return answer
 
 
 #shipik = Ship(size=2, coordinates=[{'x': 3, 'y': 4}, {'x': 3, 'y': 5}])

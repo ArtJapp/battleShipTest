@@ -58,10 +58,18 @@ class Player:
     def get_fires(self):
         return self._fires
 
+    def get_ships(self):
+        answer = []
+        for x in self.ships:
+            some_dict = x.__str__()
+            answer.append(some_dict)
+
+
 
 # pl = Player(0, "Pushik")
 # pl.set_ships([{'size': 2, 'coordinates': [{'x': 3, 'y': 4}, {'x': 3, 'y': 5}]},
 #               {'size': 3, 'coordinates': [{'x': 5, 'y': 6}, {'x': 6, 'y': 6}, {'x': 7, 'y': 6}]}])
+# pl.get_ships()
 # print(pl.ships)
 # print(pl.fire(3, 3))
 # print(pl.fire(3, 4))
