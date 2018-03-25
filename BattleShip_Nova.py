@@ -74,6 +74,7 @@ def setting_ships_up(data):
 
     try:
         game = ROOMS[game_id]
+        print(data)
         game.ustanovka(data)
         if player_id == 0:
             game.setted_1 = True
