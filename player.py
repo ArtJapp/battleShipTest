@@ -63,7 +63,7 @@ class Player:
         for x in self.ships:
             some_dict = x.__str__()
             answer.append(some_dict)
-
+        return answer
 
 
 # pl = Player(0, "Pushik")
