@@ -35,6 +35,7 @@ class Game:
         return True
 
     def ustanovka(self, **kwargs):
+        print(kwargs)
         player = kwargs['user_id']
         self.players[player].set_ships(kwargs['ships'])
 
