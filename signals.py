@@ -77,25 +77,30 @@ class Signals:
     def __init__(self, code, **kwargs):
         self.code = code
         self.header = ERRORS[str(code)]["message"]
-        game = kwargs['game']
 
         if code == 505:
+            game = kwargs['game']
             self.message = "Time is over"
         elif code == 519:
             self.message = "No game with such ID"
+            self.id = kwargs['id']
         elif code == 520:
+            game = kwargs['game']
             self.game_id = game.id
             self.users_id = [x.get_id() for x in game.players]
             self.gamers = [x.get_name() for x in game.players]
         elif code == 521:
+            game = kwargs['game']
             self.game_id = game.id
             self.message = "Player has already fired here!"
         elif code == 522:
+            game = kwargs['game']
             self.game_id = game.id
             self.finished = game.finished
             if self.finished:
                 self.winner = game.winner
         elif code == 221:
+            game = kwargs['game']
             self.game_id = game.id
             self.enemy = {
                 'id': game.players[0].get_id(),
