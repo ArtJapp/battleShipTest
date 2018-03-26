@@ -37,6 +37,8 @@ def join_game(data):
     game_id = int(data['game_id'])
     try:
         game = ROOMS[game_id]
+        if game is None:
+            raise KeyError
         answer = game.join_user2(data['name'])
         if answer:
             print("Yes, gamer ", data['name'], " has joined")
