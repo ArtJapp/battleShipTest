@@ -35,10 +35,13 @@ def create_game(data):
 @socketio.on('join')
 def join_game(data):
     game_id = int(data['game_id'])
-    try:
+    if game_id not in ROOMS.keys():
+        print("WTF man")
+        print("The game with id=", game_id, " doesn't exist")
+        emit("error", Signals(519))
+        # emit("")
+    else:
         game = ROOMS[game_id]
-        if game is None:
-            raise KeyError
         answer = game.join_user2(data['name'])
         if answer:
             print("Yes, gamer ", data['name'], " has joined")
@@ -61,10 +64,6 @@ def join_game(data):
             for x in game.players:
                 some_users_list.append(x.get_name())
             emit('forbidden', Signals(520, game=game), room=game_id)
-    except KeyError:
-        print("The game with id=", game_id, " doesn't exist")
-        emit("error", Signals(519))
-        # emit("")
 
 
 @socketio.on("setup-ships")
