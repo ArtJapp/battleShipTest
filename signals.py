@@ -115,6 +115,5 @@ class Signals:
 
     def __str__(self):
         attres = vars(self)
-        print(json.dumps(attres))
-        return json.dumps(attres)
+        return attres
 
