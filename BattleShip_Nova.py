@@ -61,7 +61,7 @@ def join_game(data):
             emit('forbidden', Signals(520, game=game), room=game_id)
     except KeyError:
         print("The game with id=", game_id, " doesn't exist")
-        emit("error", Signals(519, id=game_id))
+        emit("error", Signals(519, id=game_id).__str__())
         # emit("")
 
 
