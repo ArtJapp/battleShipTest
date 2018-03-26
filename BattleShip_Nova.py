@@ -59,7 +59,7 @@ def join_game(data):
             for x in game.players:
                 some_users_list.append(x.get_name())
             print("The answer to my dear friend is: forbidden, ", Signals(520, game=game).__str__())
-            emit('error', Signals(520, game=game).__str__())
+            socketio.emit('error', Signals(520, game=game).__str__())
     except KeyError:
         print("The game with id=", game_id, " doesn't exist")
         emit("error", Signals(519, id=game_id).__str__())
