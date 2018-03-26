@@ -58,7 +58,7 @@ def join_game(data):
             some_users_list = []
             for x in game.players:
                 some_users_list.append(x.get_name())
-            emit('forbidden', Signals(520, game=game), room=game_id)
+            emit('forbidden', Signals(520, game=game).__str__(), room=game_id)
     except KeyError:
         print("The game with id=", game_id, " doesn't exist")
         emit("error", Signals(519, id=game_id).__str__())
@@ -89,7 +89,7 @@ def setting_ships_up(data):
 
     except KeyError:
         print("No game with such id")
-        emit('error', Signals(519, id=game_id))
+        emit('error', Signals(519, id=game_id).__str__())
 
 
 @socketio.on("fire")
