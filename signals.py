@@ -83,7 +83,8 @@ class Signals:
             self.message = "Time is over"
         elif code == 519:
             self.message = "No game with such ID"
-            self.id = kwargs['id']
+            self.id = int(kwargs['id'])
+            print(self.id)
         elif code == 520:
             game = kwargs['game']
             self.game_id = game.id
