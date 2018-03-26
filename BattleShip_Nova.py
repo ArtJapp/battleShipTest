@@ -58,6 +58,7 @@ def join_game(data):
             some_users_list = []
             for x in game.players:
                 some_users_list.append(x.get_name())
+            print("The answer to my dear friend is: forbidden, ", Signals(520, game=game).__str__())
             emit('forbidden', Signals(520, game=game).__str__(), room=game_id)
     except KeyError:
         print("The game with id=", game_id, " doesn't exist")
