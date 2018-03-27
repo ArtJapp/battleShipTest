@@ -26,8 +26,7 @@ class Ship:
     def __init__(self, **kwargs):
         someship = kwargs['ship']
         self._is_alive = True
-        self._length = someship['size']
-        coords = someship['coordinates']
+        coords = someship['coords']
         self._cells = []
         for x in coords:
             coord_x = x['x']
