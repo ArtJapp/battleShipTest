@@ -108,7 +108,7 @@ def player_fire(data):
         hitted, killed, error = game.fire(coord_x, coord_y, user_id)
 
         game.printfield()
-        if game.error:
+        if error:
             print("Game ", game_id, "error")
             emit('error', {
                 "message": "Ya tebe seychas poclickayu!!!"
