@@ -48,6 +48,7 @@ class Game:
             print()
 
     def fire(self, coor_x, coor_y, player):
+
         print("Player ", player, " hits in cell (", coor_x+1, ", ", coor_y+1, ")", end="   ")
         hited = False
         killed = False

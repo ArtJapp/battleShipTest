@@ -10,6 +10,7 @@ socketio = SocketIO(app)
 
 ROOMS = {}
 
+
 @app.route('/')
 def hello_world():
     return render_template("index.html")
@@ -105,35 +106,40 @@ def player_fire(data):
     print(coord_x, coord_y)
     try:
         game = ROOMS[game_id]
-        hitted, killed, error = game.fire(coord_x, coord_y, user_id)
 
-        game.printfield()
-        if error:
-            print("Game ", game_id, "error")
-            emit('error', {
-                "message": "Ya tebe seychas poclickayu!!!"
-            })
-            game.error = False
+        if game.running and not game.finished:
+            hitted, killed, error = game.fire(coord_x, coord_y, user_id)
+
+            game.printfield()
+            if error:
+                print("Game ", game_id, "error")
+                emit('error', {
+                    "message": "Ya tebe seychas poclickayu!!!"
+                })
+                game.error = False
+            else:
+
+                emit("fired", {
+                    'game_id': game_id,
+                    'enemy_id': enemy_id,
+                    'next_player_id': game.current_player,
+                    'is_hit': hitted,
+                    'coord': {
+                        'x': coord_x,
+                        'y': coord_y
+                    },
+                    'is_ship': killed
+                }, room=game_id)
+
+                if game.finished:
+                    print("the game is finished, winner is ", game.winner)
+
+                    print(game.statistics())
+                    emit("game-finished", game.statistics(), room=game_id)
         else:
-
-            emit("fired", {
-                'game_id': game_id,
-                'enemy_id': enemy_id,
-                'next_player_id': game.current_player,
-                'is_hit': hitted,
-                'coord': {
-                    'x': coord_x,
-                    'y': coord_y
-                },
-                'is_ship': killed
-            }, room=game_id)
-
-            if game.finished:
-                print("the game is finished, winner is ", game.winner)
-
-                print(game.statistics())
-                emit("game-finished", game.statistics(), room=game_id)
-
+            print("WTF MAN, game id=", game_id, " is not active")
+            print(Signals(522, game=game).__str__())
+            emit("error", Signals(522, game=game).__str__())
     except KeyError:
         emit('error', {
             'message': "kind of turururu"
