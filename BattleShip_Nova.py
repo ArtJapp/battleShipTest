@@ -43,7 +43,7 @@ def join_game(data):
             print("Yes, gamer ", data['name'], " has joined")
             join_room(game_id)
 
-            emit('joined',  Signals(221, game=game), room=game_id)
+            emit('joined',  Signals(221, game=game).__str__(), room=game_id)
         else:
             print("Nope, gamer ", data['name'], " cannot join this game")
             some_users_list = []
