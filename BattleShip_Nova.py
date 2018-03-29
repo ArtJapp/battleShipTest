@@ -43,17 +43,7 @@ def join_game(data):
             print("Yes, gamer ", data['name'], " has joined")
             join_room(game_id)
 
-            emit('joined',  {
-                'game_id': game.id,
-                'enemy': {
-                    'id': game.players[0].get_id(),
-                    'name': game.players[0].get_name()
-                },
-                'user': {
-                    'id': game.players[1].get_id(),
-                    'name': game.players[1].get_name()
-                }
-            }, room=game_id)
+            emit('joined',  Signals(221, game=game), room=game_id)
         else:
             print("Nope, gamer ", data['name'], " cannot join this game")
             some_users_list = []
@@ -113,9 +103,7 @@ def player_fire(data):
             game.printfield()
             if error:
                 print("Game ", game_id, "error")
-                emit('error', {
-                    "message": "Ya tebe seychas poclickayu!!!"
-                })
+                emit('error', Signals(521, game=game).__str__(), room=game_id)
                 game.error = False
             else:
 
@@ -141,9 +129,7 @@ def player_fire(data):
             print(Signals(522, game=game).__str__())
             emit("error", Signals(522, game=game).__str__())
     except KeyError:
-        emit('error', {
-            'message': "kind of turururu"
-        })
+        emit('error', Signals(519, id=game_id).__str__())
 
 
 @socketio.on("disconnect")
