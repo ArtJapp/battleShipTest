@@ -28,7 +28,7 @@ class Game:
         - установил ли 2 игрок сюда корабль
         :return:
         '''
-        self.field = [[['0'] * 4 for j in range(FIELD_SIZE_Y)] for i in range(FIELD_SIZE_X)]
+        self.field = [[['0'] * 2 for j in range(FIELD_SIZE_Y)] for i in range(FIELD_SIZE_X)]
 
     def join_user2(self, player2):
         if len(self.players) >= 2:
@@ -53,7 +53,7 @@ class Game:
         hited = False
         killed = False
         if player == self.current_player:
-
+            self.field[player][coor_x][coor_y] = '1'
             enemy = (player + 1) % 2
             gamer = self.players[player]
             enemy_gamer = self.players[enemy]
