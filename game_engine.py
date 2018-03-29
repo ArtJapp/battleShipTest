@@ -53,7 +53,7 @@ class Game:
         hited = False
         killed = False
         if player == self.current_player:
-            self.field[player][coor_x][coor_y] = '1'
+            self.field[coor_y][coor_x][player] = '1'
             enemy = (player + 1) % 2
             gamer = self.players[player]
             enemy_gamer = self.players[enemy]
