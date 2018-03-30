@@ -135,6 +135,19 @@ def player_fire(data):
 @socketio.on("disconnect")
 def disconnected():
     print("Somebody has disconnected")
+    emit("ping", Signals(245).__str__())
+
+
+@socketio.on("pong")
+def stop_game(data):
+    alive_user_id = data['user_id']
+    disconnected_man = data['enemy_id']
+    game_id = data['game_id']
+    game = ROOMS[game_id]
+    print("Game id=", game_id, " has been stopped due to player ", disconnected_man, " disconnected")
+    game.finished = True
+    game.winner = alive_user_id
+    emit("game-finished", game.statistics(), room=game_id)
 
 
 if __name__ == '__main__':
