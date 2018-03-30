@@ -27,10 +27,11 @@ def connected_init():
 def create_game(data):
     print(data['name'])
     game_id = len(ROOMS)
-    ROOMS[game_id] = Game(game_id, data['name'])
+    game = Game(game_id, data['name'])
+    ROOMS[game_id] = game
     print("The game with id=", game_id, " has been created")
     join_room(game_id)
-    emit('created', {'game_id': game_id, 'user_id': 0, 'user_name': data['name']})
+    emit('created', Signals(219, game=game, name=data['name']).__str__())
     
 
 @socketio.on('join')
@@ -74,10 +75,7 @@ def setting_ships_up(data):
         if game.setted_1 and game.setted_2:
             print("The game id=", game_id, " starts")
             game.running = True
-            socketio.emit("game-started", {
-                "game_id": game_id,
-                "next_player_id": 0
-            }, room=game_id)
+            socketio.emit("game-started", Signals(223, game=game).__str__(), room=game_id)
 
     except KeyError:
         print("No game with such id")
@@ -126,7 +124,6 @@ def player_fire(data):
                     emit("game-finished", game.statistics(), room=game_id)
         else:
             print("WTF MAN, game id=", game_id, " is not active")
-            print(Signals(522, game=game).__str__())
             emit("error", Signals(522, game=game).__str__())
     except KeyError:
         emit('error', Signals(519, id=game_id).__str__())

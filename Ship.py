@@ -61,15 +61,3 @@ class Ship:
         answer['size'] = len(self._cells)
         return answer
 
-
-#shipik = Ship(size=2, coordinates=[{'x': 3, 'y': 4}, {'x': 3, 'y': 5}])
-#print(shipik.is_alive())
-#print(shipik.fire_ship(4, 5))
-#print(shipik.fire_ship(3, 4))
-#print(shipik.is_alive())
-#print(shipik.fire_ship(3, 4))
-#print(shipik.is_alive())
-#print(shipik.fire_ship(3, 5))
-#print(shipik.is_alive())
-
-

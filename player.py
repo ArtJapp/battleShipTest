@@ -64,18 +64,3 @@ class Player:
             some_dict = x.__str__()
             answer.append(some_dict)
         return answer
-
-
-# pl = Player(0, "Pushik")
-# pl.set_ships([{'size': 2, 'coordinates': [{'x': 3, 'y': 4}, {'x': 3, 'y': 5}]},
-#               {'size': 3, 'coordinates': [{'x': 5, 'y': 6}, {'x': 6, 'y': 6}, {'x': 7, 'y': 6}]}])
-# pl.get_ships()
-# print(pl.ships)
-# print(pl.fire(3, 3))
-# print(pl.fire(3, 4))
-# print(pl.fire(3, 4))
-# print(pl.fire(5, 6))
-# print(pl.fire(5, 6))
-# print(pl.fire(6, 6))
-# print(pl.fire(7, 6))
-# print(pl.fire(7, 6))
