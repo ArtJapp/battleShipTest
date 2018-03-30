@@ -86,6 +86,7 @@ class Signals:
             self.id = int(kwargs['id'])
             print(self.id)
         elif code == 520:
+            self.message = "Sorry, this game already has 2 players"
             game = kwargs['game']
             self.game_id = game.id
             self.users_id = [x.get_id() for x in game.players]
@@ -99,7 +100,10 @@ class Signals:
             self.game_id = game.id
             self.finished = game.finished
             if self.finished:
+                self.message = "This game has been already finished"
                 self.winner = game.winner
+            else:
+                self.message = "This game has been never started"
         elif code == 221:
             game = kwargs['game']
             self.game_id = game.id
