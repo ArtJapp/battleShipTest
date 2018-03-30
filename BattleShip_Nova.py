@@ -137,7 +137,7 @@ def player_fire(data):
 @socketio.on("disconnect")
 def disconnected():
     print("Somebody has disconnected")
-    emit("ping", Signals(245).__str__())
+    socketio.emit("ping", Signals(245).__str__())
 
 
 @socketio.on("pong")
