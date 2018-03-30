@@ -95,6 +95,12 @@ class Signals:
             game = kwargs['game']
             self.game_id = game.id
             self.message = "Player has already fired here!"
+        elif code == 219:
+            game = kwargs['game']
+            name = kwargs['name']
+            self.game_id = game.id
+            self.user_id = 0
+            self.user_name = name
         elif code == 522:
             game = kwargs['game']
             self.game_id = game.id
@@ -116,6 +122,10 @@ class Signals:
                 'id': game.players[1].get_id(),
                 'name': str(game.players[1].get_name())
             }
+        elif code == 223:
+            game = kwargs['game']
+            self.game_id = game.id
+            self.next_player_id = 0
 
     def __str__(self):
         attres = vars(self)
