@@ -20,19 +20,20 @@ def hello_world():
 def connected_init():
     print("somebody has connected")
     emit('connected', {'dorou': "there"})
- #   print(request.sid)
+
+
+#   print(request.sid)
 
 
 @socketio.on('create')
 def create_game(data):
     print(data['name'])
     game_id = len(ROOMS)
-    game = Game(game_id, data['name'])
-    ROOMS[game_id] = game
+    ROOMS[game_id] = Game(game_id, data['name'])
     print("The game with id=", game_id, " has been created")
     join_room(game_id)
-    emit('created', Signals(219, game=game, name=data['name']).__str__())
-    
+    emit('created', {'game_id': game_id, 'user_id': 0, 'user_name': data['name']})
+
 
 @socketio.on('join')
 def join_game(data):
@@ -44,7 +45,7 @@ def join_game(data):
             print("Yes, gamer ", data['name'], " has joined")
             join_room(game_id)
 
-            emit('joined',  Signals(221, game=game).__str__(), room=game_id)
+            emit('joined', Signals(221, game=game).__str__(), room=game_id)
         else:
             print("Nope, gamer ", data['name'], " cannot join this game")
             some_users_list = []
@@ -62,7 +63,7 @@ def join_game(data):
 def setting_ships_up(data):
     game_id = int(data['game_id'])
     player_id = int(data['user_id'])
-   # print("Ships has been planted", data)
+    # print("Ships has been planted", data)
 
     try:
         game = ROOMS[game_id]
@@ -75,7 +76,10 @@ def setting_ships_up(data):
         if game.setted_1 and game.setted_2:
             print("The game id=", game_id, " starts")
             game.running = True
-            socketio.emit("game-started", Signals(223, game=game).__str__(), room=game_id)
+            socketio.emit("game-started", {
+                "game_id": game_id,
+                "next_player_id": 0
+            }, room=game_id)
 
     except KeyError:
         print("No game with such id")
@@ -124,6 +128,7 @@ def player_fire(data):
                     emit("game-finished", game.statistics(), room=game_id)
         else:
             print("WTF MAN, game id=", game_id, " is not active")
+            print(Signals(522, game=game).__str__())
             emit("error", Signals(522, game=game).__str__())
     except KeyError:
         emit('error', Signals(519, id=game_id).__str__())
