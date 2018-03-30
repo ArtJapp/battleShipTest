@@ -43,32 +43,32 @@ ERRORS = {
     "227": {
         #    player tries to fire when the game is not
         #    started or has been already finished
-        "message": "NotActive"
+        "message": "FiredHit"
     },
     "231": {
         #    player tries to fire when the game is not
         #    started or has been already finished
-        "message": "NotActive"
+        "message": "ChatSent"
     },
     "233": {
         #    player tries to fire when the game is not
         #    started or has been already finished
-        "message": "NotActive"
+        "message": "ChatWasRead"
     },
     "235": {
         #    player tries to fire when the game is not
         #    started or has been already finished
-        "message": "NotActive"
+        "message": "ChatTyping"
     },
     "245": {
         #    player tries to fire when the game is not
         #    started or has been already finished
-        "message": "NotActive"
+        "message": "AreYouHere"
     },
     "250": {
         #    player tries to fire when the game is not
         #    started or has been already finished
-        "message": "NotActive"
+        "message": "Disconnected"
     },
 }
 
@@ -95,12 +95,6 @@ class Signals:
             game = kwargs['game']
             self.game_id = game.id
             self.message = "Player has already fired here!"
-        elif code == 219:
-            game = kwargs['game']
-            name = kwargs['name']
-            self.game_id = game.id
-            self.user_id = 0
-            self.user_name = name
         elif code == 522:
             game = kwargs['game']
             self.game_id = game.id
@@ -110,6 +104,12 @@ class Signals:
                 self.winner = game.winner
             else:
                 self.message = "This game has been never started"
+        elif code == 219:
+            game = kwargs['game']
+            name = kwargs['name']
+            self.game_id = game.id
+            self.user_id = 0
+            self.user_name = name
         elif code == 221:
             game = kwargs['game']
             self.game_id = game.id
@@ -126,6 +126,7 @@ class Signals:
             game = kwargs['game']
             self.game_id = game.id
             self.next_player_id = 0
+
 
     def __str__(self):
         attres = vars(self)
