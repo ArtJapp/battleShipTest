@@ -134,10 +134,10 @@ def player_fire(data):
         emit('error', Signals(519, id=game_id).__str__())
 
 
-@socketio.on("disconnect")
+@socketio.on("leave")
 def disconnected(data):
     print("Somebody has disconnected")
-    print(data)
+   # print(d)
     socketio.emit("ping", Signals(245).__str__())
 
 
