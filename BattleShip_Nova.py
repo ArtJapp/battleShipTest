@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO, join_room, close_room, leave_room, emit
+from flask import Flask, render_template
+from flask_socketio import SocketIO, join_room, close_room, leave_room, emit, rooms
 from game_engine import *
 from player import *
 from signals import Signals
@@ -22,8 +22,6 @@ def connected_init():
     emit('connected', {'dorou': "there"})
 
 
-#   print(request.sid)
-
 
 @socketio.on('create')
 def create_game(data):
@@ -32,6 +30,8 @@ def create_game(data):
     ROOMS[game_id] = Game(game_id, data['name'])
     print("The game with id=", game_id, " has been created")
     join_room(game_id)
+    print(rooms())
+
     emit('created', {'game_id': game_id, 'user_id': 0, 'user_name': data['name']})
 
 
@@ -41,9 +41,11 @@ def join_game(data):
     try:
         game = ROOMS[game_id]
         answer = game.join_user2(data['name'])
+
         if answer:
             print("Yes, gamer ", data['name'], " has joined")
             join_room(game_id)
+            print(rooms())
 
             emit('joined', Signals(221, game=game).__str__(), room=game_id)
         else:
@@ -134,14 +136,16 @@ def player_fire(data):
         emit('error', Signals(519, id=game_id).__str__())
 
 
-@socketio.on("leave")
-def disconnected(data):
+@socketio.on("disconnect")
+def disconnected():
     print("Somebody has disconnected")
-    print(data)
-    socketio.emit("ping", Signals(245).__str__())
+    if len(rooms()) > 1:
+        game_id = rooms()[1]
+        game = ROOMS[game_id]
+        socketio.emit("pinger", Signals(245).__str__(), room=game_id)
 
 
-@socketio.on("pong")
+@socketio.on("ponger")
 def stop_game(data):
     alive_user_id = data['user_id']
     disconnected_man = data['enemy_id']
