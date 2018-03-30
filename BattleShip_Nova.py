@@ -140,7 +140,13 @@ def player_fire(data):
 def disconnected():
     print("Somebody has disconnected")
     if len(rooms()) > 1:
-        game_id = rooms()[1]
+        game_id = -1
+        for x in rooms():
+            try:
+                x += 1
+                game_id = x-1
+            except TypeError:
+                pass
         game = ROOMS[game_id]
         socketio.emit("pinger", Signals(245).__str__(), room=game_id)
 
