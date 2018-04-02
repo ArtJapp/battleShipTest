@@ -160,7 +160,7 @@ def stop_game(data):
     print("Game id=", game_id, " has been stopped due to player ", disconnected_man, " disconnected")
     game.finished = True
     game.winner = alive_user_id
-    emit("game-extra-finished", game.statistics(), room=game_id)
+    emit("game-extra-finished", Signals(249, game=game, id=alive_user_id), room=game_id)
 
 
 if __name__ == '__main__':

@@ -65,6 +65,10 @@ ERRORS = {
         #    started or has been already finished
         "message": "AreYouHere"
     },
+    "249": {
+        #
+        "message": "LazyStatistics"
+    },
     "250": {
         #    player tries to fire when the game is not
         #    started or has been already finished
@@ -127,6 +131,19 @@ class Signals:
             self.game_id = game.id
             self.next_player_id = 0
 
+        elif code == 249:
+            game = kwargs['game']
+            alive_id = kwargs['id']
+            self.game_id = game.id
+            self.winner_id = game.winner
+            self.user = {
+                    "user_id": alive_id,
+                    "hits": game.players[alive_id].get_hits(),
+                    "fires": game.players[alive_id].get_fires(),
+                    "ships": game.players[alive_id].get_ships()
+                }
+
+            self.enemy_ship = game.players[(alive_id + 1) % 2].get_ships()
 
     def __str__(self):
         attres = vars(self)
