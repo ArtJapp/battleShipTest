@@ -143,7 +143,7 @@ class Signals:
                     "ships": game.players[alive_id].get_ships()
                 }
 
-            self.enemy_ship = game.players[(alive_id + 1) % 2].get_ships()
+            self.enemy_ships = game.players[(alive_id + 1) % 2].get_ships()
 
     def __str__(self):
         attres = vars(self)
