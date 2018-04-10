@@ -22,7 +22,6 @@ def connected_init():
     emit('connected', {'dorou': "there"})
 
 
-
 @socketio.on('create')
 def create_game(data):
     print(data['name'])
@@ -161,6 +160,8 @@ def stop_game(data):
     game.finished = True
     game.winner = alive_user_id
     emit("game-extra-finished", Signals(249, game=game, id=alive_user_id).__str__(), room=game_id)
+    # leave_room(game_id)
+    close_room(game_id)
 
 
 if __name__ == '__main__':
