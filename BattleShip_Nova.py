@@ -147,7 +147,8 @@ def disconnected():
             except TypeError:
                 pass
         game = ROOMS[game_id]
-        socketio.emit("pinger", Signals(245).__str__(), room=game_id)
+        if not game.finished:
+            socketio.emit("pinger", Signals(245).__str__(), room=game_id)
 
 
 @socketio.on("ponger")
@@ -156,12 +157,13 @@ def stop_game(data):
     disconnected_man = data['enemy_id']
     game_id = data['game_id']
     game = ROOMS[game_id]
-    print("Game id=", game_id, " has been stopped due to player ", disconnected_man, " disconnected")
-    game.finished = True
-    game.winner = alive_user_id
-    emit("game-extra-finished", Signals(249, game=game, id=alive_user_id).__str__(), room=game_id)
-    # leave_room(game_id)
-    close_room(game_id)
+    if not game.finished:
+        print("Game id=", game_id, " has been stopped due to player ", disconnected_man, " disconnected")
+        game.finished = True
+        game.winner = alive_user_id
+        emit("game-extra-finished", Signals(249, game=game, id=alive_user_id).__str__(), room=game_id)
+        leave_room(game_id)
+        close_room(game_id)
 
 
 if __name__ == '__main__':
